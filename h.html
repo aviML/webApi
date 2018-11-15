@@ -1,0 +1,41 @@
+<html>
+
+<div id="div1"></div>
+<script type="text/javascript">
+
+var resp
+var url = 'https://newsapi.org/v2/top-headlines?' +
+          'country=us&' +
+          'apiKey=5c6c561367c54eb3aa718a38ebae2b18';
+var req = new Request(url);
+
+    fetch(req).then(response => 
+    response.json().then(data => ({
+        data: data,
+        status: response.status
+    })
+).then(res => {
+           resp=res.data;
+           var size= resp.articles.length;
+           for(var i=0;i<size;i++){
+            var para=document.createElement("P");
+            para.innerHTML=resp.articles[i].title;
+            var img= document.createElement("IMG");
+            img.height="100";
+            img.width="100";
+            img.src=resp.articles[i].urlToImage;
+            var div= document.createElement("DIV");
+            div.appendChild(img);
+            div.appendChild(para);
+            var url=resp.articles[i].url;
+            div.onclick=()=>{location.href=url}
+            div.onmouseover=()=>{console.log("hover"+this);div.style.backgroundColor="red"}
+            document.getElementById("div1").appendChild(div);
+           }
+          
+    console.log(resp.articles);
+}));
+
+</script>
+</html>
+
